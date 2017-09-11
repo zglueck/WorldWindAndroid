@@ -5,13 +5,20 @@
 
 package gov.nasa.worldwindx;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.WorldWindow;
+import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.globe.BasicElevationCoverage;
 import gov.nasa.worldwind.layer.BackgroundLayer;
 import gov.nasa.worldwind.layer.BlueMarbleLandsatLayer;
+import gov.nasa.worldwind.layer.RenderableLayer;
+import gov.nasa.worldwind.render.Color;
+import gov.nasa.worldwind.shape.Placemark;
+import gov.nasa.worldwind.shape.RTWPoint;
 import gov.nasa.worldwindx.experimental.AtmosphereLayer;
 
 /**
@@ -56,7 +63,46 @@ public class BasicGlobeActivity extends AbstractMainActivity {
         this.wwd.getLayers().addLayer(new AtmosphereLayer());
 
         // Setup the WorldWindow's elevation coverages.
-        this.wwd.getGlobe().getElevationModel().addCoverage(new BasicElevationCoverage());
+        //this.wwd.getGlobe().getElevationModel().addCoverage(new BasicElevationCoverage());
+        RTWPoint point = new RTWPoint(new Position(33.192, -96.7654699, 1000.0));
+        RenderableLayer layer = new RenderableLayer();
+        layer.addRenderable(point);
+        point = new RTWPoint(new Position(33.193, -96.7654699, 1000.0));
+        layer.addRenderable(point);
+        point = new RTWPoint(new Position(33.194, -96.7654699, 1000.0));
+        layer.addRenderable(point);
+        Color placemarkColor = new Color(1, 105/255, 180/255, 1);
+        int placemarkSize = 9;
+        Placemark placemark = Placemark.createWithColorAndSize(Position.fromDegrees(33.192, -96.7654, 1000.0), placemarkColor, placemarkSize);
+        layer.addRenderable(placemark);
+        placemark = Placemark.createWithColorAndSize(Position.fromDegrees(33.193, -96.7654, 1000.0), placemarkColor, placemarkSize);
+        layer.addRenderable(placemark);
+        placemark = Placemark.createWithColorAndSize(Position.fromDegrees(33.194, -96.7654, 1000.0), placemarkColor, placemarkSize);
+        layer.addRenderable(placemark);
+        this.wwd.getLayers().addLayer(layer);
+
+        AsyncTask<Void, Void, Void> refreshTheGlobe = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                while(true) {
+                    try {
+                        Thread.sleep(17);
+                        this.publishProgress();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+
+            }
+
+            @Override
+            protected void onProgressUpdate(Void... values) {
+                wwd.requestRedraw();
+            }
+        };
+        refreshTheGlobe.execute();
     }
 
     @Override
