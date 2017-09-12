@@ -70,17 +70,8 @@ public class DSFUN90SimpleShaderProgram extends SimpleShaderProgram {
     }
 
     public static void doubleToTwoFloats(double value, float[] split) {
-//        split[0] = (float) value;
-//        split[1] = (float) (value - split[0]);
-        if (value >= 0.0) {
-            double doubleHigh = Math.floor(value / 65536.0) * 65536.0;
-            split[0] = (float) doubleHigh;
-            split[1] = (float) (value - doubleHigh);
-        } else {
-            double doubleHigh = Math.floor(-value / 65536.0) * 65536.0;
-            split[0] = (float) doubleHigh;
-            split[1] = (float) (value + doubleHigh);
-        }
+        split[0] = (float) value;
+        split[1] = (float) (value - split[0]);
     }
 
     @Override
