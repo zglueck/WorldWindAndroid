@@ -28,9 +28,13 @@ public class SimpleShaderProgram extends ShaderProgram {
 
     protected int pMatrixId;
 
-    private float[] array = new float[16];
+    protected float[] array = new float[16];
 
     public SimpleShaderProgram(Resources resources) {
+        init(resources);
+    }
+
+    protected void init(Resources resources) {
         try {
             String vs = WWUtil.readResourceAsText(resources, R.raw.gov_nasa_worldwind_simple_vert);
             String fs = WWUtil.readResourceAsText(resources, R.raw.gov_nasa_worldwind_simple_frag);

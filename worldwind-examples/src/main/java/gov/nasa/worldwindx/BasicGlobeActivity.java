@@ -18,6 +18,7 @@ import gov.nasa.worldwind.layer.BlueMarbleLandsatLayer;
 import gov.nasa.worldwind.layer.RenderableLayer;
 import gov.nasa.worldwind.render.Color;
 import gov.nasa.worldwind.shape.Placemark;
+import gov.nasa.worldwind.shape.RTWDSFUN90Point;
 import gov.nasa.worldwind.shape.RTWPoint;
 import gov.nasa.worldwindx.experimental.AtmosphereLayer;
 
@@ -79,6 +80,13 @@ public class BasicGlobeActivity extends AbstractMainActivity {
         layer.addRenderable(placemark);
         placemark = Placemark.createWithColorAndSize(Position.fromDegrees(33.194, -96.7654, 1.0), placemarkColor, placemarkSize);
         layer.addRenderable(placemark);
+        double lon = (-96.7654 + -96.7654699) / 2.0;
+        RTWDSFUN90Point dPoint = new RTWDSFUN90Point(new Position(33.192, lon, 1.0));
+        layer.addRenderable(dPoint);
+        dPoint = new RTWDSFUN90Point(new Position(33.193, lon, 1.0));
+        layer.addRenderable(dPoint);
+        dPoint = new RTWDSFUN90Point(new Position(33.194, lon, 1.0));
+        layer.addRenderable(dPoint);
         this.wwd.getLayers().addLayer(layer);
 
         AsyncTask<Void, Void, Void> refreshTheGlobe = new AsyncTask<Void, Void, Void>() {
