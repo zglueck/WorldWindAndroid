@@ -11,6 +11,7 @@ import android.opengl.Matrix;
 
 import java.nio.FloatBuffer;
 
+import gov.nasa.worldwind.geom.Matrix4;
 import gov.nasa.worldwind.geom.Vec3;
 import gov.nasa.worldwind.render.BufferObject;
 import gov.nasa.worldwind.render.DSFUN90SimpleShaderProgram;
@@ -18,8 +19,6 @@ import gov.nasa.worldwind.render.DSFUN90SimpleShaderProgram;
 public class DrawableDSFUN90ScreenPoint implements Drawable {
 
     protected Vec3 position;
-
-    protected float size = 6f;
 
     protected DSFUN90SimpleShaderProgram program;
 
@@ -98,7 +97,7 @@ public class DrawableDSFUN90ScreenPoint implements Drawable {
         GLES20.glEnableVertexAttribArray(positionHighId);
         GLES20.glVertexAttribPointer(positionHighId, 3, GLES20.GL_FLOAT, false, 3 * 4, 0);
         GLES20.glEnableVertexAttribArray(positionLowId);
-        GLES20.glVertexAttribPointer(positionLowId, 3, GLES20.GL_FLOAT, false, 3 * 4, 3);
+        GLES20.glVertexAttribPointer(positionLowId, 3, GLES20.GL_FLOAT, false, 3 * 4, 3 * 4);
 
         GLES20.glDrawArrays(GLES20.GL_POINTS, 0, 1);
 

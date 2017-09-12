@@ -70,13 +70,27 @@ public class DSFUN90SimpleShaderProgram extends SimpleShaderProgram {
     }
 
     public static void doubleToTwoFloats(double value, float[] split) {
-        split[0] = (float) value;
-        split[1] = (float) (value - split[0]);
+//        split[0] = (float) value;
+//        split[1] = (float) (value - split[0]);
+        if (value >= 0.0) {
+            double doubleHigh = Math.floor(value / 65536.0) * 65536.0;
+            split[0] = (float) doubleHigh;
+            split[1] = (float) (value - doubleHigh);
+        } else {
+            double doubleHigh = Math.floor(-value / 65536.0) * 65536.0;
+            split[0] = (float) doubleHigh;
+            split[1] = (float) (value + doubleHigh);
+        }
     }
 
     @Override
     public void loadModelview(Matrix4 matrix) {
-        matrix.transposeToArray(this.array, 0);
+        Matrix4 mvEye = new Matrix4(matrix);
+        mvEye.m[3] = 0.0;
+        mvEye.m[7] = 0.0;
+        mvEye.m[11] = 0.0;
+        mvEye.transposeToArray(this.array, 0);
+
         GLES20.glUniformMatrix4fv(this.mvMatrixId, 1, false, this.array, 0);
     }
 
